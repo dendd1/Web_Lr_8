@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}QaA{% endblock %}
+
+{% block body %}
+
+<main role="main">
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Популярный вопрос от {{ topQuestion[0].userName }}</h1>
+            <h2>{{ topQuestion[0].title }}.</h2>
+            <p>{{ topQuestion[0].text }}.</p>
+            <div style="display: flex; justify-content: space-between">
+                <p>Ответов: {{ topQuestion[0].countcom }}</p>
+                <p>{{ topQuestion[0].date|date('Y-m-d') }}</p>
+            </div>
+            <div class="col text-right">
+                <p><a class="btn btn-primary btn-lg" href="question/{{ topQuestion[0].id }}" role="button">Ответы
+                        &raquo;</a></p>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <h1>Ваш вопрос:</h1>
+
+        {{ form_start(formQuestion) }}
+        {{ form_row(formQuestion.title, {
+            label: 'Заголовок вопроса'
+        }) }}
+        {{ form_row(formQuestion.text, {
+            label: 'Текст вопроса'
+        }) }}
+        {{ form_row(formQuestion.category, {
+            label: 'Категория'
+        }) }}
+        <br>
+        <div class="col text-center">
+            {{ form_row(formQuestion.save, {
+                label: 'Отправить на проверку'
+            }) }}
+        </div>
+
+
+
+
+        {{ form_end(formQuestion) }}
+        <datalist id="category">
+            {% for category in categories %}
+            <option value="{{ category.getName }}">
+                {% endfor %}
+        </datalist>
+    {% endif %}
+
+
+    <h1>Свежие вопросы:</h1>
+    <hr>
+    {% for q in questions %}
+    <div class="container">
+        <div class="container-fluid">
+
+            <!-- Example row of columns -->
+                <div>
+                    <h2>{{ q.title }}</h2>
+                    <p>Вопрос от {{ q.user.username }} </p>
+                    <p>{{ q.text }}</p>
+                    <div style="display: flex; justify-content: space-between">
+                        <p>Ответов: {{ q.aswers|length }}</p>
+                        <p>{{ q.date|date('Y-m-d') }}</p>
+                    </div>
+                    <div class="col text-right">
+                        <p><a class="btn btn-secondary" href="question/{{ q.id }}" role="button">Ответы &raquo;</a></p>
+                    </div>
+                </div>
+
+
+                <hr>
+
+            </div> <!-- /container -->
+    </div>
+        {% endfor %}
+
+    <nav aria-label="...">
+        <ul class="pagination justify-content-center" style="font-size: large">
+            {{ knp_pagination_render(questions) }}
+        </ul>
+    </nav>
+    <div class="col text-center">
+
+
+    </div>
+
+
+        <footer class="container">
+            <p>&copy; Danila&Vladislav 2022</p>
+        </footer>
+
+        {% endblock %}
