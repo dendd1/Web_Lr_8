@@ -19,7 +19,7 @@ class Category
     private $name;
 
     #[ORM\Column(type: 'boolean')]
-    private $status;
+    private $status = true;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Question::class)]
     private $questions;

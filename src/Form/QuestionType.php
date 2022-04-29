@@ -29,9 +29,6 @@ class QuestionType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            //->add('date')
-            //->add('status')
-            //->add('category')
             ->add(
                 'category',
                 CategoryType::class,
@@ -45,13 +42,11 @@ class QuestionType extends AbstractType
                     'required' => true,
                 ]
             )
-            //->add('user')
             ->add('save', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary mb-2'
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

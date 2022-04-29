@@ -23,36 +23,37 @@ class QuestionController extends AbstractController
     #[Route('/question/{id}', name: 'app_answer')]
     public function index(int $id, ManagerRegistry $doctrine, Request $request, PaginatorInterface $paginator): Response
     {
+
+        $question = $doctrine->getRepository(Question::class)->findOneBy(['id' => $id]);
+
+        if (!$question->getStatus()) {
+            return $this->redirectToRoute('app_home');
+        }
         $answer_for_form = new Aswer();
 
         $form = $this->createForm(AnswerType::class, $answer_for_form, [
-            'action' => $this->generateUrl('app_answer', ['id'=>$id])
+            'action' => $this->generateUrl('app_answer', ['id' => $id])
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //var_dump($answer); die;
             $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-            $answer_for_form->setStatus(False);
             $answer_for_form->setQuestion($doctrine->getRepository(Question::class)->find($id));
             $answer_for_form->setDate(new \DateTime('now'));
             $answer_for_form->setUser($this->getUser());
             $answer_for_form = $form->getData();
-            //var_dump($answer); die;
             $em = $doctrine->getManager();
             $em->persist($answer_for_form);
             $em->flush();
-            // ... perform some action, such as saving the task to the database
-
-            //return $this->redirectToRoute('app_answer', ['id'=>$id]);
+            return $this->redirectToRoute('app_answer', ['id' => $id]);
         }
 
 
-
         $question = $doctrine->getRepository(Question::class)->find($id);
-        $answer = $doctrine->getRepository(Aswer::class)->getAnswersOnQuestion($id);
 
+
+        $answer = $doctrine->getRepository(Aswer::class)->getAnswersOnQuestion($id);
         $answers = $paginator->paginate(
         // Doctrine Query, not results
             $answer,

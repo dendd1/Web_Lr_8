@@ -28,8 +28,7 @@ class AnswerType extends AbstractType
                 'attr' => [
                     'class' => 'btn btn-primary mb-2 tex col text-center',
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

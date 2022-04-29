@@ -41,16 +41,20 @@
             <ul class="navbar-nav mr-auto">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Привет {{app.user}}!<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="#">Привет {{ app.user }}!<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_logout') }}">Выйти<span class="sr-only">(current)</span></a>
                     </li>
-                {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/admin">Панель администратора<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/add/question">Задать вопрос <span class="sr-only">(current)</span></a>
                     </li>
-                {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin">Панель администратора<span
+                                        class="sr-only">(current)</span></a>
+                        </li>
+                    {% endif %}
 
                 {% else %}
 
@@ -65,9 +69,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/">Главная <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="#">Категории</a>
-                </li>
+
             </ul>
             <form class="form-inline mt-2 mt-md-0">
                 <input class="form-control mr-sm-2" type="text" placeholder="Поиск" aria-label="Search">

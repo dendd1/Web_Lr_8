@@ -44,17 +44,29 @@ class QuestionRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
     public function getTopQuestion(): array
     {
         $connection = $this->getEntityManager()->getConnection();
 
-        $sql = 'SELECT *, (SELECT COUNT(*) FROM aswer WHERE aswer.question_id = question.id) AS countcom,
+        $sql = 'SELECT *, (SELECT COUNT(*) FROM aswer WHERE aswer.question_id = question.id AND aswer.status = TRUE) AS countcom,
        (SELECT username FROM user WHERE user.id = question.user_id) as userName
 FROM question WHERE question.status = TRUE ORDER BY countcom DESC LIMIT 1;
             ';
 
         $result = $connection->prepare($sql)->executeQuery();
+        return $result->fetchAllAssociative();
+    }
+    public function getQuestionWithApproveAnswer(): array
+    {
+        $connection = $this->getEntityManager()->getConnection();
 
+        $sql = 'SELECT *, (SELECT COUNT(*) FROM aswer WHERE aswer.question_id = question.id AND aswer.status = TRUE) AS countcom,
+       (SELECT username FROM user WHERE user.id = question.user_id) as userName
+FROM question WHERE question.status = TRUE ORDER BY date DESC;
+            ';
+
+        $result = $connection->prepare($sql)->executeQuery();
         return $result->fetchAllAssociative();
     }
     // /**

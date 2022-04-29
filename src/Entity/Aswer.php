@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AswerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AswerRepository::class)]
 class Aswer
@@ -20,7 +21,7 @@ class Aswer
     private $date;
 
     #[ORM\Column(type: 'boolean')]
-    private $status;
+    private $status = false;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'aswers')]
     private $user;

@@ -44,6 +44,7 @@ class AswerRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
     public function getAnswersOnQuestion(int $id): array
     {
         $connection = $this->getEntityManager()->getConnection();

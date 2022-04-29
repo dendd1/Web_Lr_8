@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
@@ -25,7 +26,7 @@ class AswerCrudController extends AbstractCrudController
         return [
             AssociationField::new('question'),
             DateTimeField::new('date'),
-            TextField::new('text'),
+            TextareaField::new('text'),
             BooleanField::new('status'),
             AssociationField::new('user'),
 

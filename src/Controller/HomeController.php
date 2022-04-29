@@ -18,62 +18,11 @@ class HomeController extends AbstractController
     public function index(ManagerRegistry $doctrine, Request $request, PaginatorInterface $paginator): Response
     {
 
-        $categories = $doctrine
-            ->getRepository(Category::class)
-            ->findAll();
-
-
-        $question_for_form = new Question();
-
-        $form = $this->createForm(QuestionType::class, $question_for_form, [
-            'action' => $this->generateUrl('app_home')
-        ]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-
-            $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-            $question_for_form->setStatus(False);
-            $question_for_form->setDate(new \DateTime('now'));
-            $question_for_form->setUser($this->getUser());
-            $answer = $form->getData();
-            //var_dump($answer); die;
-            $em = $doctrine->getManager();
-
-            # получаю категорию
-            $category = $question_for_form->getCategory();
-            $category->setStatus(True);
-
-            # проверка, что такой категории еще нет
-            $categoryCheck = $doctrine
-                ->getRepository(Category::class)
-                ->findOneBy(['name' => $category->getName()]);
-
-
-            # если такой нет, то добавляю, иначе устанавливаю уже имеющеюся
-            if (!$categoryCheck) {
-                $em->persist($category);
-            } else {
-                $question_for_form->setCategory($categoryCheck);
-            }
-            $em->persist($question_for_form);
-
-            # отправляю полученные данные в БД
-            $em->flush();
-
-
-            $em->persist($answer);
-            $em->flush();
-            // ... perform some action, such as saving the task to the database
 
 
 
 
-            //return $this->redirectToRoute('app_answer', ['id'=>$id]);
-        }
-
-        $question = $doctrine->getRepository(Question::class)->findBy(['status' => 'true'],['date' => 'DESC']);
+        $question = $doctrine->getRepository(Question::class)->getQuestionWithApproveAnswer();
         $topQuestion = $doctrine->getRepository(Question::class)->getTopQuestion();
 
         $appointments = $paginator->paginate(
@@ -87,8 +36,6 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'questions' => $appointments,
             'topQuestion' => $topQuestion,
-            'formQuestion' => $form->createView(),
-            'categories' => $categories,
             'appointments' => $appointments,
         ]);
     }

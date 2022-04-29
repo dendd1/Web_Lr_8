@@ -58,8 +58,8 @@ class AppFixtures extends Fixture
         $question_study_1->setCategory($category_study);
         $manager->persist($question_study_1);
 
-        $answer_study_1  = new Aswer();
-        $answer_study_1->setStatus(True);
+        $answer_study_1 = new Aswer();
+        $answer_study_1->setStatus(False);
         $answer_study_1->setText('Для того, чтобы программа "подстраивалась" под разрешение экрана, нужно воспользоваться контейнерами разметки.');
         $answer_study_1->setDate(new \DateTime('now'));
         $answer_study_1->setUser($user_vlad);
@@ -67,7 +67,7 @@ class AppFixtures extends Fixture
         $manager->persist($answer_study_1);
 
         $question_study_2 = new Question();
-        $question_study_2->setStatus(True);
+        $question_study_2->setStatus(False);
         $question_study_2->setTitle('Как подключить географические карты в своё приложение');
         $question_study_2->setText('Всем доброго времени суток. Вопрос такой: как подключить географические карты типа Google Maps или Open street maps в своё приложение? Какой инструментарий для этого требуется?');
         $question_study_2->setDate(new \DateTime('now'));

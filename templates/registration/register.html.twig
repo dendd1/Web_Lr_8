@@ -6,12 +6,9 @@
     <h1>Регистрация</h1>
 
     {{ form_start(registrationForm) }}
-    {#    <label for="inputUsername">Логин</label> #}
-    {#    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus> #}
     {{ form_row(registrationForm.username, {
         label: 'Логин'
     }) }}
-    {#    <label for="inputUsername">Пароль</label> #}
     {{ form_row(registrationForm.plainPassword, {
         label: 'Пароль'
     }) }}
